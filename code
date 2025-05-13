@@ -12,7 +12,7 @@ function Show-SapLoginDialog {
     # フォームの作成
     $form = New-Object System.Windows.Forms.Form
     $form.Text = "SAP ログイン"
-    $form.Size = New-Object System.Drawing.Size(400, 320)
+    $form.Size = New-Object System.Drawing.Size(400, 280)
     $form.StartPosition = "CenterScreen"
     $form.FormBorderStyle = "FixedDialog"
     $form.MaximizeBox = $false
@@ -31,85 +31,85 @@ function Show-SapLoginDialog {
     $label.Text = "SAP システムへのログイン情報を入力してください:"
     $form.Controls.Add($label)
 
-    # 接続文字列
-    $connLabel = New-Object System.Windows.Forms.Label
-    $connLabel.Location = New-Object System.Drawing.Point(10, 40)
-    $connLabel.Size = New-Object System.Drawing.Size(120, 20)
-    $connLabel.Text = "接続文字列:"
-    $form.Controls.Add($connLabel)
+    # システム名（SAP ログオンパッドに登録されているシステム名）
+    $sysNameLabel = New-Object System.Windows.Forms.Label
+    $sysNameLabel.Location = New-Object System.Drawing.Point(10, 40)
+    $sysNameLabel.Size = New-Object System.Drawing.Size(120, 20)
+    $sysNameLabel.Text = "システム名:"
+    $form.Controls.Add($sysNameLabel)
     
-    $connTextBox = New-Object System.Windows.Forms.TextBox
-    $connTextBox.Location = New-Object System.Drawing.Point(140, 40)
-    $connTextBox.Size = New-Object System.Drawing.Size(240, 20)
-    $connTextBox.Text = "/H/sapserver/S/3200"
-    $form.Controls.Add($connTextBox)
+    $sysNameTextBox = New-Object System.Windows.Forms.TextBox
+    $sysNameTextBox.Location = New-Object System.Drawing.Point(140, 40)
+    $sysNameTextBox.Size = New-Object System.Drawing.Size(240, 20)
+    $form.Controls.Add($sysNameTextBox)
 
-    # システムID
+    # システムID（不要な場合は削除可能）
     $sysLabel = New-Object System.Windows.Forms.Label
     $sysLabel.Location = New-Object System.Drawing.Point(10, 70)
     $sysLabel.Size = New-Object System.Drawing.Size(120, 20)
-    $sysLabel.Text = "システムID:"
+    $sysLabel.Text = "クライアント番号:"
     $form.Controls.Add($sysLabel)
     
     $sysTextBox = New-Object System.Windows.Forms.TextBox
     $sysTextBox.Location = New-Object System.Drawing.Point(140, 70)
     $sysTextBox.Size = New-Object System.Drawing.Size(240, 20)
+    $sysTextBox.Text = "100"
     $form.Controls.Add($sysTextBox)
 
     # クライアント番号
     $clientLabel = New-Object System.Windows.Forms.Label
     $clientLabel.Location = New-Object System.Drawing.Point(10, 100)
     $clientLabel.Size = New-Object System.Drawing.Size(120, 20)
-    $clientLabel.Text = "クライアント番号:"
+    $clientLabel.Text = "ユーザー名:"
     $form.Controls.Add($clientLabel)
     
     $clientTextBox = New-Object System.Windows.Forms.TextBox
     $clientTextBox.Location = New-Object System.Drawing.Point(140, 100)
     $clientTextBox.Size = New-Object System.Drawing.Size(240, 20)
-    $clientTextBox.Text = "100"
     $form.Controls.Add($clientTextBox)
 
     # ユーザー名
     $userLabel = New-Object System.Windows.Forms.Label
     $userLabel.Location = New-Object System.Drawing.Point(10, 130)
     $userLabel.Size = New-Object System.Drawing.Size(120, 20)
-    $userLabel.Text = "ユーザー名:"
+    $userLabel.Text = "パスワード:"
     $form.Controls.Add($userLabel)
     
-    $userTextBox = New-Object System.Windows.Forms.TextBox
+    $userTextBox = New-Object System.Windows.Forms.MaskedTextBox
     $userTextBox.Location = New-Object System.Drawing.Point(140, 130)
     $userTextBox.Size = New-Object System.Drawing.Size(240, 20)
+    $userTextBox.PasswordChar = '*'
     $form.Controls.Add($userTextBox)
 
     # パスワード
     $passLabel = New-Object System.Windows.Forms.Label
     $passLabel.Location = New-Object System.Drawing.Point(10, 160)
     $passLabel.Size = New-Object System.Drawing.Size(120, 20)
-    $passLabel.Text = "パスワード:"
+    $passLabel.Text = "言語コード:"
     $form.Controls.Add($passLabel)
     
-    $passTextBox = New-Object System.Windows.Forms.MaskedTextBox
+    $passTextBox = New-Object System.Windows.Forms.TextBox
     $passTextBox.Location = New-Object System.Drawing.Point(140, 160)
     $passTextBox.Size = New-Object System.Drawing.Size(240, 20)
-    $passTextBox.PasswordChar = '*'
+    $passTextBox.Text = "JA"
     $form.Controls.Add($passTextBox)
 
     # 言語コード
-    $langLabel = New-Object System.Windows.Forms.Label
-    $langLabel.Location = New-Object System.Drawing.Point(10, 190)
-    $langLabel.Size = New-Object System.Drawing.Size(120, 20)
-    $langLabel.Text = "言語コード:"
-    $form.Controls.Add($langLabel)
+    # $langLabel = New-Object System.Windows.Forms.Label
+    # $langLabel.Location = New-Object System.Drawing.Point(10, 190)
+    # $langLabel.Size = New-Object System.Drawing.Size(120, 20)
+    # $langLabel.Text = "言語コード:"
+    # $form.Controls.Add($langLabel)
     
-    $langTextBox = New-Object System.Windows.Forms.TextBox
-    $langTextBox.Location = New-Object System.Drawing.Point(140, 190)
-    $langTextBox.Size = New-Object System.Drawing.Size(240, 20)
-    $langTextBox.Text = "JA"
-    $form.Controls.Add($langTextBox)
+    # $langTextBox = New-Object System.Windows.Forms.TextBox
+    # $langTextBox.Location = New-Object System.Drawing.Point(140, 190)
+    # $langTextBox.Size = New-Object System.Drawing.Size(240, 20)
+    # $langTextBox.Text = "JA"
+    # $form.Controls.Add($langTextBox)
 
     # OKボタン
     $okButton = New-Object System.Windows.Forms.Button
-    $okButton.Location = New-Object System.Drawing.Point(140, 230)
+    $okButton.Location = New-Object System.Drawing.Point(140, 200)
     $okButton.Size = New-Object System.Drawing.Size(100, 30)
     $okButton.Text = "OK"
     $okButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
@@ -118,7 +118,7 @@ function Show-SapLoginDialog {
 
     # キャンセルボタン
     $cancelButton = New-Object System.Windows.Forms.Button
-    $cancelButton.Location = New-Object System.Drawing.Point(250, 230)
+    $cancelButton.Location = New-Object System.Drawing.Point(250, 200)
     $cancelButton.Size = New-Object System.Drawing.Size(100, 30)
     $cancelButton.Text = "キャンセル"
     $cancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
@@ -128,12 +128,11 @@ function Show-SapLoginDialog {
     # フォームのコントロールにアクセスするためのハッシュテーブル
     $formData = @{
         Form = $form
-        ConnectionString = $connTextBox
-        SystemID = $sysTextBox
-        ClientNumber = $clientTextBox
-        Username = $userTextBox
-        Password = $passTextBox
-        Language = $langTextBox
+        SystemName = $sysNameTextBox
+        ClientNumber = $sysTextBox
+        Username = $clientTextBox
+        Password = $userTextBox
+        Language = $passTextBox
     }
 
     return $formData
@@ -151,15 +150,14 @@ try {
     }
     
     # ダイアログからログイン情報を取得
-    $ConnectionString = $loginDialog.ConnectionString.Text
-    $SystemID = $loginDialog.SystemID.Text
+    $SystemName = $loginDialog.SystemName.Text
     $ClientNumber = $loginDialog.ClientNumber.Text
     $Username = $loginDialog.Username.Text
     $Password = $loginDialog.Password.Text
     $Language = $loginDialog.Language.Text
     
     # 入力値の検証
-    if ([string]::IsNullOrEmpty($SystemID) -or [string]::IsNullOrEmpty($ClientNumber) -or 
+    if ([string]::IsNullOrEmpty($SystemName) -or [string]::IsNullOrEmpty($ClientNumber) -or 
         [string]::IsNullOrEmpty($Username) -or [string]::IsNullOrEmpty($Password)) {
         throw "必須項目が入力されていません。"
     }
@@ -175,7 +173,7 @@ try {
         # 新しい接続を開く（既存の接続がない場合）
         if ($SapApp.Connections.Count -eq 0) {
             Write-Host "新しい SAP 接続を作成します..."
-            $Connection = $SapApp.OpenConnection($SystemID, $true)
+            $Connection = $SapApp.OpenConnection($SystemName, $true)
         } else {
             # 既存の最初の接続を使用
             $Connection = $SapApp.Connections.Item(0)
