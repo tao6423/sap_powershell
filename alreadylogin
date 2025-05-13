@@ -1,0 +1,49 @@
+# SAP GUIスクリプティングを使用して新しいウィンドウを開き、指定のトランザクションコードに遷移するPowerShellスクリプト
+
+# パラメーター設定
+param (
+    [Parameter(Mandatory=$true)]
+    [string]$TransactionCode  # 実行したいトランザクションコード
+)
+
+try {
+    # COM オブジェクトとしてSAP GUIを取得
+    $SapGui = [System.Runtime.InteropServices.Marshal]::GetActiveObject("SAPGUI")
+    
+    if ($SapGui -eq $null) {
+        Write-Error "アクティブなSAP GUIセッションが見つかりません。SAPにログインしていることを確認してください。"
+        exit 1
+    }
+    
+    # 接続情報を取得
+    $SapApp = $SapGui.GetScriptingEngine()
+    
+    if ($SapApp.Connections.Count -eq 0) {
+        Write-Error "アクティブなSAP接続が見つかりません。SAPにログインしていることを確認してください。"
+        exit 1
+    }
+    
+    # 最初の接続を取得
+    $Connection = $SapApp.Connections.Item(0)
+    
+    # 新しいセッションを作成
+    $NewSession = $Connection.Children.Add()
+    
+    if ($NewSession -eq $null) {
+        Write-Error "新しいセッションを作成できませんでした。セッション数の上限に達している可能性があります。"
+        exit 1
+    }
+    
+    # セッションが準備できるまで待機
+    Start-Sleep -Milliseconds 500
+    
+    # 新しいセッションでトランザクションコードを実行
+    $NewSession.FindById("wnd[0]/tbar[0]/okcd").Text = $TransactionCode
+    $NewSession.FindById("wnd[0]").SendVKey(0)  # Enter キーを送信
+    
+    Write-Host "新しいウィンドウでトランザクションコード $TransactionCode の実行に成功しました。"
+}
+catch {
+    Write-Error "エラーが発生しました: $_"
+    exit 1
+}
